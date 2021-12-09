@@ -41,8 +41,10 @@ jobs:
   - job: build_docker_image
     displayName: "Build custom Docker image for ${{ parameters.WSO2_PRODUCT_NAME }}"
     steps:
-      - checkout: ${{ parameters.GITHUB_REPOSITORY_RESOURCE }}
+      - checkout: git://neogenomics/neogenomics-pipelines@main
         path: ${{ parameters.GITHUB_REPOSITORY_RESOURCE }}
+#      - checkout: self
+#        path: ${{ parameters.GITHUB_REPOSITORY_RESOURCE }}
 
       # TODO: This is added temporarily to login to docker.wso2.com
       # TODO: Base images to be added to customer's private ACR
