@@ -20,15 +20,6 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-resources:
-  repositories:
-    # Add DevOps Resources for mapping Docker source GitHub Repositories to this list
-    - repository: docker-source
-      type: github
-      name: chirangaalwis/apim-is-km-deployment-resources
-      ref: refs/heads/main
-      endpoint: chirangaalwis
-
 jobs:
   - template: ./build-image-template.yaml
     parameters:
