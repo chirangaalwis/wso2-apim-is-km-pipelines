@@ -11,14 +11,6 @@ variables:
 pool:
   vmImage: 'ubuntu-latest'
 
-resources:
-  repositories:
-    - repository: product-helm-chart-source
-      type: github
-      name: chirangaalwis/apim-is-km-deployment-resources
-      ref: refs/heads/enable-secure-vault
-      endpoint: chirangaalwis
-
 jobs:
   - template: ./deploy-product-chart.yaml
     parameters:
