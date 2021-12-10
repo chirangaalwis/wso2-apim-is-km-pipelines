@@ -50,7 +50,7 @@ jobs:
         inputs:
           command: build
           containerRegistry: ${{ parameters.CONTAINER_IMAGE_REG_CONNECTION }}
-          repository: ${{ parameters.CONTAINER_IMAGE_REPOSITORY }}-neo
+          repository: ${{ parameters.CONTAINER_IMAGE_REPOSITORY }}
           buildContext: ${{ parameters.CONTAINER_IMAGE_BUILD_CONTEXT }}
           arguments: ${{ parameters.CONTAINER_IMAGE_BUILD_ARGS }}
           Dockerfile: ${{ parameters.DOCKERFILE_PATH }}
