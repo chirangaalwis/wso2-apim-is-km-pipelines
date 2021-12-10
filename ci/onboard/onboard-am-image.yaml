@@ -21,7 +21,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
-  - template: ./build-image-template.yaml
+  - template: ./onboard-image-template.yaml
     parameters:
 
       WSO2_IMAGE_REG_SERVICE_CONNECTION: $(WSO2_IMAGE_REG_SERVICE_CONNECTION)
