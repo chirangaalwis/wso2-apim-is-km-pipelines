@@ -32,5 +32,5 @@ jobs:
         $(IS_BASE_VERSION)
         $(IS_BASE_VERSION).${{ parameters.WSO2_IS_UPDATE_LEVEL }}
       CONTAINER_IMAGE_BUILD_CONTEXT: '$(Agent.BuildDirectory)/$(DOCKER_RESOURCE_REPO_DIR)/docker/is-as-km'
-      CONTAINER_IMAGE_BUILD_ARGS: '--build-arg BASE_PRODUCT_VERSION=$(IS_BASE_VERSION).${{ parameters.WSO2_IS_UPDATE_LEVEL }}'
+      CONTAINER_IMAGE_BUILD_ARGS: '--build-arg BASE_DOCKER_IMAGE_REGISTRY=$(CONTAINER_REGISTRY_IDENTIFIER) --build-arg BASE_PRODUCT_VERSION=$(IS_BASE_VERSION).${{ parameters.WSO2_IS_UPDATE_LEVEL }}'
       DOCKERFILE_PATH: '$(Agent.BuildDirectory)/$(DOCKER_RESOURCE_REPO_DIR)/docker/is-as-km/Dockerfile'
