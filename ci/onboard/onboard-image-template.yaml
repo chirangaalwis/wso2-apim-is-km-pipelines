@@ -42,7 +42,7 @@ jobs:
           command: login
           containerRegistry: ${{ parameters.WSO2_IMAGE_REG_SERVICE_CONNECTION }}
       - script: |
-          docker pull ${{ variables.WSO2_REG_IDENTIFIER }}/${{ parameters.CONTAINER_IMAGE_REPOSITORY }}:${{ parameters.CONTAINER_IMAGE_TAG }}
+          docker pull ${{ variables.WSO2_REG_IDENTIFIER }}/${{ parameters.SOURCE_CONTAINER_IMAGE_REPOSITORY }}:${{ parameters.CONTAINER_IMAGE_TAG }}
           if [ $? -eq 1 ]
           then
               echo "Image not found. Invalid registry, repository or tag..."
