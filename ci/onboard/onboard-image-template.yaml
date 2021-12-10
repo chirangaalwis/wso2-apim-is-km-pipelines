@@ -1,0 +1,69 @@
+# -------------------------------------------------------------------------------------
+# Onboard updated WSO2 Product Docker Image Azure Pipeline Template
+# --------------------------------------------------------------------------------------
+
+parameters:
+  # Target container registry configurations
+  # Azure DevOps Service Connection for the source WSO2 Private Docker Registry (https://docker.wso2.com/)
+  - name: WSO2_IMAGE_REG_SERVICE_CONNECTION
+    type: string
+  # Azure DevOps Service Connection to the target Azure Container Registry
+  - name: ACR_SERVICE_CONNECTION
+    type: string
+  # Target Azure Container Registry identifier (hostname:port definition)
+  - name: ACR_REG_IDENTIFIER
+    type: string
+
+  # WSO2 Product image details
+  # Name of the WSO2 product for which the image is to be built
+  - name: WSO2_PRODUCT_NAME
+    type: string
+
+  # Product container image properties
+  # Image repository name at docker.wso2.com
+  - name: SOURCE_CONTAINER_IMAGE_REPOSITORY
+    type: string
+  # Image repository name at the targeted ACR
+  - name: TARGET_CONTAINER_IMAGE_REPOSITORY
+    type: string
+  # Image tags
+  - name: CONTAINER_IMAGE_TAG
+    type: string
+
+jobs:
+  - job: onboard_docker_image
+    displayName: "Onboard base Docker image for ${{ parameters.WSO2_PRODUCT_NAME }} with WSO2 Updates"
+    variables:
+      WSO2_REG_IDENTIFIER: "docker.wso2.com"
+    steps:
+      - task: Docker@2
+        displayName: Login to WSO2's Private Docker Registry
+        inputs:
+          command: login
+          containerRegistry: ${{ parameters.WSO2_IMAGE_REG_SERVICE_CONNECTION }}
+      - script: |
+          docker pull ${{ variables.WSO2_REG_IDENTIFIER }}/${{ parameters.CONTAINER_IMAGE_REPOSITORY }}:${{ parameters.CONTAINER_IMAGE_TAG }}
+          if [ $? -eq 1 ]
+          then
+              echo "Image not found. Invalid registry, repository or tag..."
+              exit 1
+          fi
+        displayName: 'Pull remote image'
+      - script: |
+          docker tag \
+            ${{ variables.WSO2_REG_IDENTIFIER }}/${{ parameters.SOURCE_CONTAINER_IMAGE_REPOSITORY }}:${{ parameters.CONTAINER_IMAGE_TAG }} \
+            ${{ parameters.ACR_REG_IDENTIFIER }}/${{ parameters.TARGET_CONTAINER_IMAGE_REPOSITORY }}:${{ parameters.CONTAINER_IMAGE_TAG }}
+          if [ $? -eq 1 ]
+          then
+              echo "Failed to rename the WSO2 product base image..."
+              exit 1
+          fi
+        displayName: 'Rename remote image'
+      - task: Docker@2
+        displayName: 'Push ${{ parameters.WSO2_PRODUCT_NAME }} Docker container image to ACR'
+        inputs:
+          command: push
+          containerRegistry: ${{ parameters.ACR_SERVICE_CONNECTION }}
+          repository: ${{ parameters.TARGET_CONTAINER_IMAGE_REPOSITORY }}
+          tags: |
+            ${{ parameters.CONTAINER_IMAGE_TAG }}

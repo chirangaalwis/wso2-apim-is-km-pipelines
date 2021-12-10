@@ -45,21 +45,12 @@ jobs:
 #        path: ${{ parameters.GITHUB_REPOSITORY_RESOURCE }}
       - checkout: self
         path: ${{ parameters.GITHUB_REPOSITORY_RESOURCE }}
-
-      # TODO: This is added temporarily to login to docker.wso2.com
-      # TODO: Base images to be added to customer's private ACR
-      - task: Docker@2
-        displayName: Login to ACR
-        inputs:
-          command: login
-          containerRegistry: dockerwso2
-
       - task: Docker@2
         displayName: 'Build ${{ parameters.WSO2_PRODUCT_NAME }} Docker container image'
         inputs:
           command: build
           containerRegistry: ${{ parameters.CONTAINER_IMAGE_REG_CONNECTION }}
-          repository: ${{ parameters.CONTAINER_IMAGE_REPOSITORY }}
+          repository: ${{ parameters.CONTAINER_IMAGE_REPOSITORY }}-neo
           buildContext: ${{ parameters.CONTAINER_IMAGE_BUILD_CONTEXT }}
           arguments: ${{ parameters.CONTAINER_IMAGE_BUILD_ARGS }}
           Dockerfile: ${{ parameters.DOCKERFILE_PATH }}

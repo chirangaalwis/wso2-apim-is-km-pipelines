@@ -1,0 +1,12 @@
+# -------------------------------------------------------------------------------------
+# Common Azure DevOps Pipeline Variables
+# --------------------------------------------------------------------------------------
+
+variables:
+  # Target container registry configurations
+  # Azure DevOps Service Connection for the source WSO2 Private Docker Registry (https://docker.wso2.com/)
+  WSO2_IMAGE_REG_SERVICE_CONNECTION: 'dockerwso2'
+  # Azure DevOps Service Connection to target ACR
+  ACR_SERVICE_CONNECTION: 'wso2srernd-acr'
+  # Target ACR identifier (hostname:port definition)
+  ACR_REG_IDENTIFIER: 'wso2srernd.azurecr.io'
