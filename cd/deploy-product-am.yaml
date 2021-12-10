@@ -2,18 +2,11 @@
 # Azure DevOps Pipeline for deploying a WSO2 API Manager Product Helm Chart
 # --------------------------------------------------------------------------------------
 
-parameters:
-  - name: AM_UPDATE_LEVEL
-    type: string
-    default: '51'
-    displayName: 'WSO2 Update level of WSO2 API Manager to be used'
-
 trigger:
   - none
 
 variables:
   - template: ./common-variables.yaml
-  - group: WSO2_SUB_CONFIGURATIONS
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -28,15 +21,16 @@ jobs:
       AZURE_KEY_VAULT_SERVICE_CONNECTION: $(AZURE_KEY_VAULT_SERVICE_CONNECTION)
       DEPLOYMENT_AZURE_KEY_VAULT_NAME: $(DEPLOYMENT_AZURE_KEY_VAULT_NAME)
       HELM_INPUT_VALUES: |
-        wso2.subscription.username="chiranga@wso2.com"
-        wso2.subscription.password=$(WSO2_SUBSCRIPTION_PASSWORD)
         wso2.deployment.am.dockerRegistry="wso2srernd.azurecr.io"
-        wso2.deployment.am.imageName=wso2am
-        wso2.deployment.am.imageTag="4.0.0.${{ parameters.AM_UPDATE_LEVEL }}"
+        wso2.deployment.am.imageName=wso2am-neo
+        wso2.deployment.am.imageTag=4.0.0.52
         wso2.deployment.am.customConfig.cryptography.keyStores.primary.password=$(AM-PRIMARY-KEYSTORE-PASSWORD)
         wso2.deployment.am.customConfig.cryptography.keyStores.secondary.password=$(AM-SECONDARY-KEYSTORE-PASSWORD)
         wso2.deployment.am.customConfig.cryptography.keyStores.internal.password=$(AM-INTERNAL-KEYSTORE-PASSWORD)
         wso2.deployment.am.customConfig.cryptography.trustStorePassword=$(AM-CERT-TRUST-STORE-PASSWORD)
+        wso2.deployment.mi.dockerRegistry="wso2srernd.azurecr.io"
+        wso2.deployment.mi.imageName=wso2mi-neo
+        wso2.deployment.mi.imageTag=4.0.0.27
         wso2.deployment.mi.customConfig.cryptography.keyStores.primary.password=$(MI-PRIMARY-KEYSTORE-PASSWORD)
         wso2.deployment.mi.customConfig.cryptography.keyStores.secondary.password=$(MI-SECONDARY-KEYSTORE-PASSWORD)
         wso2.deployment.mi.customConfig.cryptography.keyStores.internal.password=$(MI-INTERNAL-KEYSTORE-PASSWORD)
