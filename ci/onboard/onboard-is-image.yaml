@@ -1,0 +1,33 @@
+# -------------------------------------------------------------------------------------
+# Azure DevOps Pipeline for on-boarding WSO2 Identity Server base Docker Image
+# --------------------------------------------------------------------------------------
+
+parameters:
+  # WSO2 Identity Server Updates 2.0 update level
+  - name: WSO2_IS_UPDATE_LEVEL
+    displayName: Updates 2.0 update level for WSO2 Identity Server
+    type: string
+
+variables:
+  - template: ./common-variables.yaml
+  # Base Identity Server version
+  - name: IS_BASE_VERSION
+    value: '5.11.0'
+
+trigger:
+  - none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+  - template: ./onboard-image-template.yaml
+    parameters:
+
+      WSO2_IMAGE_REG_SERVICE_CONNECTION: $(WSO2_IMAGE_REG_SERVICE_CONNECTION)
+      ACR_SERVICE_CONNECTION: $(ACR_SERVICE_CONNECTION)
+      ACR_REG_IDENTIFIER: $(ACR_REG_IDENTIFIER)
+      WSO2_PRODUCT_NAME: 'Identity Server'
+      SOURCE_CONTAINER_IMAGE_REPOSITORY: 'wso2is'
+      TARGET_CONTAINER_IMAGE_REPOSITORY: 'wso2is'
+      CONTAINER_IMAGE_TAG: $(IS_BASE_VERSION).${{ parameters.WSO2_IS_UPDATE_LEVEL }}
