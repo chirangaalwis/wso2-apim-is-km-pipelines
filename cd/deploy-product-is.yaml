@@ -22,7 +22,8 @@ jobs:
       DEPLOYMENT_AZURE_KEY_VAULT_NAME: $(DEPLOYMENT_AZURE_KEY_VAULT_NAME)
       HELM_INPUT_VALUES: |
         wso2.deployment.wso2is.dockerRegistry="wso2srernd.azurecr.io"
-        wso2.deployment.wso2is.imageName=wso2is-km
+        wso2.deployment.wso2is.imageName=wso2is-km-neo
+        wso2.deployment.wso2is.imageTag=5.11.0.88-jdk11
         wso2.deployment.wso2is.customConfig.cryptography.keyStores.primary.password=$(IS-PRIMARY-KEYSTORE-PASSWORD)
         wso2.deployment.wso2is.customConfig.cryptography.keyStores.secondary.password=$(IS-SECONDARY-KEYSTORE-PASSWORD)
         wso2.deployment.wso2is.customConfig.cryptography.keyStores.internal.password=$(IS-INTERNAL-KEYSTORE-PASSWORD)
