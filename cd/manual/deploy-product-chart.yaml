@@ -58,23 +58,8 @@ jobs:
           azureSubscription: ${{ parameters.AZURE_KEY_VAULT_SERVICE_CONNECTION }}
           KeyVaultName: ${{ parameters.DEPLOYMENT_AZURE_KEY_VAULT_NAME }}
           RunAsPreJob: true
-#      - task: HelmDeploy@0
-#        displayName: 'Install/Upgrade Helm Release using the WSO2 product Helm Chart'
-#        inputs:
-#          connectionType: 'Kubernetes Service Connection'
-#          kubernetesServiceConnection: ${{ parameters.KUBERNETES_SERVICE_CONNECTION }}
-#          namespace: ${{ parameters.KUBERNETES_NAMESPACE_FOR_PRODUCT_WORKLOADS }}
-#          command: 'upgrade'
-#          chartType: 'FilePath'
-#          chartPath: '$(Agent.BuildDirectory)/$(HELM_CHART_SOURCE_REPO_DIR)/${{ parameters.HELM_CHART_ROOT }}'
-#          releaseName: ${{ parameters.HELM_RELEASE_NAME }}
-#          valueFile: '$(Agent.BuildDirectory)/$(HELM_CHART_SOURCE_REPO_DIR)/${{ parameters.HELM_CHART_ROOT }}/values.yaml'
-#          waitForExecution: false
-#          arguments: '--debug'
-#          overrideValues: ${{ parameters.HELM_INPUT_VALUES }}
-
       - task: AzureCLI@2
-        displayName: Azure CLI
+        displayName: 'Install/Upgrade Helm Release using the WSO2 product Helm Chart'
         inputs:
           azureSubscription: ${{ parameters.AZURE_RM_SERVICE_CONNECTION_FOR_KUBERNETES }}
           scriptType: bash
@@ -83,6 +68,7 @@ jobs:
             # Login to the targeted Azure Kubernetes Service cluster
             az aks get-credentials --resource-group ${{ parameters.AKS_RESOURCE_GROUP }} --name ${{ parameters.AKS_CLUSTER_NAME }} --admin
 
+            # Install/Upgrade WSO2 product Helm Chart
             helm template ${{ parameters.HELM_RELEASE_NAME }} $(Agent.BuildDirectory)/$(HELM_CHART_SOURCE_REPO_DIR)/${{ parameters.HELM_CHART_ROOT }} \
             --namespace ${{ parameters.KUBERNETES_NAMESPACE_FOR_PRODUCT_WORKLOADS }} \
             -f $(Agent.BuildDirectory)/$(HELM_CHART_SOURCE_REPO_DIR)/${{ parameters.HELM_CHART_ROOT }}/values.yaml \
