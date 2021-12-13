@@ -69,7 +69,7 @@ jobs:
             az aks get-credentials --resource-group ${{ parameters.AKS_RESOURCE_GROUP }} --name ${{ parameters.AKS_CLUSTER_NAME }} --admin
 
             # Install/Upgrade WSO2 product Helm Chart
-            helm template ${{ parameters.HELM_RELEASE_NAME }} $(Agent.BuildDirectory)/$(HELM_CHART_SOURCE_REPO_DIR)/${{ parameters.HELM_CHART_ROOT }} \
+            helm upgrade ${{ parameters.HELM_RELEASE_NAME }} $(Agent.BuildDirectory)/$(HELM_CHART_SOURCE_REPO_DIR)/${{ parameters.HELM_CHART_ROOT }} \
             --namespace ${{ parameters.KUBERNETES_NAMESPACE_FOR_PRODUCT_WORKLOADS }} \
             -f $(Agent.BuildDirectory)/$(HELM_CHART_SOURCE_REPO_DIR)/${{ parameters.HELM_CHART_ROOT }}/values.yaml \
             --set ${{ parameters.HELM_INPUT_VALUES }} \
