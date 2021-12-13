@@ -1,0 +1,21 @@
+# -------------------------------------------------------------------------------------
+# Common Azure DevOps Pipeline Variables
+# --------------------------------------------------------------------------------------
+
+variables:
+  # Note: Variables marked with 'variable group' indicator can be considered to be included in a DevOps Variable Group
+  # These variables are common among multiple pipelines
+
+  # Azure DevOps Service Connection to the Azure Key Vault holding the product secrets
+  AZURE_KEY_VAULT_SERVICE_CONNECTION: 'neogenomics-kv'
+  # Name of the Azure Key Vault for the product deployment
+  DEPLOYMENT_AZURE_KEY_VAULT_NAME: 'neogenomics'   # variable group
+
+  # Azure DevOps Service Connection to the target Azure Kubernetes Service cluster
+  AZURE_RM_SERVICE_CONNECTION_FOR_KUBERNETES: 'neogenomics-rm-evaluation-cluster'   # variable group
+  # Name of the Kubernetes Namespace for deploying the product workloads
+  KUBERNETES_NAMESPACE_FOR_PRODUCT_DEPLOYMENT: 'wso2'   # variable group
+  # Name of the Azure Kubernetes Service cluster resource
+  AKS_CLUSTER_NAME: 'chaos-cluster'
+  # Azure Resource Group to which the Azure Kubernetes Service cluster belongs
+  AKS_RESOURCE_GROUP: 'SelfHealing'
